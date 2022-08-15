@@ -59,6 +59,11 @@ const preferredLightThemeSettingSchema: IConfigurationPropertySchema = {
 	enumItemLabels: colorThemeSettingEnumItemLabels,
 	errorMessage: nls.localize('colorThemeError', "Theme is unknown or not installed."),
 };
+const transparencySettingSchema: IConfigurationPropertySchema = {
+	type: 'boolean',
+	markdownDescription: nls.localize('transparencySetting', 'If set, the background of the application will become transparent. (Requires Restart)'),
+	default: false
+};
 const preferredHCDarkThemeSettingSchema: IConfigurationPropertySchema = {
 	type: 'string',
 	markdownDescription: nls.localize({ key: 'preferredHCDarkColorTheme', comment: ['`#{0}#` will become a link to an other setting. Do not remove backtick or #'] }, 'Specifies the preferred color theme used in high contrast dark mode when `#{0}#` is enabled.', ThemeSettings.DETECT_HC),
@@ -125,6 +130,7 @@ const themeSettingsConfiguration: IConfigurationNode = {
 	type: 'object',
 	properties: {
 		[ThemeSettings.COLOR_THEME]: colorThemeSettingSchema,
+		[ThemeSettings.TRANSPARENCY]: transparencySettingSchema,
 		[ThemeSettings.PREFERRED_DARK_THEME]: preferredDarkThemeSettingSchema,
 		[ThemeSettings.PREFERRED_LIGHT_THEME]: preferredLightThemeSettingSchema,
 		[ThemeSettings.PREFERRED_HC_DARK_THEME]: preferredHCDarkThemeSettingSchema,

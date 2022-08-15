@@ -154,6 +154,8 @@ export class CodeWindow extends Disposable implements ICodeWindow {
 	private pendingLoadConfig: INativeWindowConfiguration | undefined;
 	private wasLoaded = false;
 
+
+
 	constructor(
 		config: IWindowCreationOptions,
 		@ILogService private readonly logService: ILogService,
@@ -190,6 +192,8 @@ export class CodeWindow extends Disposable implements ICodeWindow {
 
 			const windowSettings = this.configurationService.getValue<IWindowSettings | undefined>('window');
 
+			const workbenchTransparency = this.configurationService.getValue('workbench.transparency');
+
 			let useSandbox = false;
 			if (typeof windowSettings?.experimental?.useSandbox === 'boolean') {
 				useSandbox = windowSettings.experimental.useSandbox;
@@ -202,11 +206,13 @@ export class CodeWindow extends Disposable implements ICodeWindow {
 				height: this.windowState.height,
 				x: this.windowState.x,
 				y: this.windowState.y,
-				backgroundColor: this.themeMainService.getBackgroundColor(),
+				backgroundColor: workbenchTransparency ? '#00000000' : this.themeMainService.getBackgroundColor(),
 				minWidth: WindowMinimumSize.WIDTH,
 				minHeight: WindowMinimumSize.HEIGHT,
 				show: !isFullscreenOrMaximized, // reduce flicker by showing later
 				title: this.productService.nameLong,
+				frame: workbenchTransparency ? false : undefined,
+				transparent: workbenchTransparency ? true : undefined,
 				webPreferences: {
 					preload: FileAccess.asFileUri('vs/base/parts/sandbox/electron-browser/preload.js', require).fsPath,
 					additionalArguments: [`--vscode-window-config=${this.configObjectUrl.resource.toString()}`],
