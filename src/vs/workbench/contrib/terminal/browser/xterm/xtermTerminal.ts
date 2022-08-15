@@ -125,6 +125,7 @@ export class XtermTerminal extends DisposableStore implements IXtermTerminal, II
 	constructor(
 		xtermCtor: typeof RawXtermTerminal,
 		private readonly _configHelper: TerminalConfigHelper,
+		allowTransparency: boolean,
 		cols: number,
 		rows: number,
 		location: TerminalLocation,
@@ -147,6 +148,7 @@ export class XtermTerminal extends DisposableStore implements IXtermTerminal, II
 
 		this.raw = this.add(new xtermCtor({
 			allowProposedApi: true,
+			allowTransparency,
 			cols,
 			rows,
 			altClickMovesCursor: config.altClickMovesCursor && editorOptions.multiCursorModifier === 'alt',
